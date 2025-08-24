@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXCHANGE FOR YOU</title>
+    <style>
+        :root {
+            --primary-color: #27ae60;
+            --primary-hover: #219150;
+            --secondary-color: #3498db;
+            --secondary-hover: #2980b9;
+            --danger-color: #e74c3c;
+            --danger-hover: #c0392b;
+            --dark-color: #2c3e50;
+            --text-color: #34495e;
+            --bg-color: #f4f6f9;
+            --surface-color: #ffffff;
+            --border-color: #dee2e6;
+            --shadow-color: rgba(44, 62, 80, 0.1);
+            --font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --border-radius: 8px;
+            --transition-speed: 0.2s ease-in-out;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: var(--font-family);
+            background: var(--bg-color);
+            margin: 0;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        header {
+            background: var(--dark-color);
+            color: var(--surface-color);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        header h1 { margin: 0; font-size: 2rem; }
+        nav { margin-top: 0.5rem; }
+        nav a {
+            color: var(--surface-color);
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: 500;
+            transition: color var(--transition-speed), border-bottom-color var(--transition-speed);
+            padding: 0.25rem 0;
+            border-bottom: 2px solid transparent;
+        }
+        nav a:hover {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        main {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .section {
+            margin-bottom: 2rem;
+            background: var(--surface-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+        .section h2 {
+            color: var(--dark-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+        .card-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .empty-message {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 2rem;
+            background: var(--bg-color);
+            border-radius: var(--border-radius);
+            color: var(--text-color);
+        }
+        .card {
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 5px rgba(0,0,0,.05);
+            display: flex;
+            flex-direction: column;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px var(--shadow-color);
+        }
+        .card img {
+            width: 100%; height: 180px; object-fit: cover; display: block;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .card:hover img { transform: scale(1.05); }
+        .card-content { padding: 1rem; display: flex; flex-direction: column; flex-grow: 1; gap: 0.25rem; }
+        .card .category { color: var(--secondary-color); font-weight: 500; font-size: 0.9rem; }
+        .card strong { font-size: 1.1rem; color: var(--dark-color); }
+        .card .desc { flex-grow: 1; color: #6c757d; font-size: 0.95rem; margin: 0.5rem 0; }
+        .price { color: var(--primary-color); font-weight: bold; font-size: 1.25rem; margin-top: auto; }
+        .actions { display: flex; gap: 0.5rem; border-top: 1px solid var(--border-color); padding: 1rem; background: #f8f9fa; }
+        .actions button { flex-grow: 1; }
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--dark-color); }
+        input, textarea, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            background-color: #fdfdfd;
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
+        }
+        button {
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all var(--transition-speed);
+            touch-action: manipulation;
+            display: inline-block;
+            text-align: center;
+            color: var(--surface-color);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        button[type="submit"] { background: var(--primary-color); }
+        button[type="submit"]:hover { background: var(--primary-hover); }
+        .edit-btn { background: var(--secondary-color); }
+        .edit-btn:hover { background: var(--secondary-hover); }
+        .delete-btn { background: var(--danger-color); }
+        .delete-btn:hover { background: var(--danger-hover); }
+        @media (max-width: 768px) {
+            main { padding: 0 1rem; }
+            .section { padding: 1.5rem; }
+        }
+        @media (max-width: 600px) {
+            .card-list { grid-template-columns: 1fr; }
+            header { padding: 1rem; }
+            header h1 { font-size: 1.5rem; }
+            nav a { margin: 0 0.5rem; }
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.15s ease-in-out;
+        }
+        .modal.show { display: flex; opacity: 1; }
+        .modal-content {
+            background: var(--surface-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.15s ease-in-out;
+        }
+        .modal.show .modal-content { transform: scale(1); }
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.75rem;
+            color: #aaa;
+            cursor: pointer;
+            line-height: 1;
+            transition: color var(--transition-speed);
+        }
+        .close-modal:hover { color: var(--dark-color); }
+
+        /* Image Lightbox Specific Styles */
+        #imageModal {
+            background: rgba(0, 0, 0, 0.85); /* Darker background for better focus */
+        }
+        .lightbox-content {
+            margin: auto;
+            display: block;
+            max-width: 80vw;
+            max-height: 80vh;
+            border-radius: 4px;
+            animation: zoomIn 0.3s ease-out;
+        }
+        #imageModal .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        #imageModal .close-modal:hover,
+        #imageModal .close-modal:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>EXCHANGE FOR YOU</h1>
+        <nav>
+            <a href="#products">Products</a>
+            <a href="#add">Add Product</a>
+            <a href="#about">About</a>
+        </nav>
+    </header>
+    <main>
+        <section id="products" class="section">
+            <h2>Products</h2>
+            <div class="card-list" id="cardList"></div>
+        </section>
+        <section id="add" class="section">
+            <h2>Add Product</h2>
+            <form id="dataForm" autocomplete="off">
+                <div class="form-group">
+                    <label for="title">Product Name</label>
+                    <input type="text" id="title" name="title" required maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label for="desc">Description</label>
+                    <textarea id="desc" name="desc" rows="3" required maxlength="200"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price ($)</label>
+                    <input type="number" id="price" name="price" required min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" required>
+                        <option value="">Select category</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Books">Books</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="img">Image URL (Optional)</label>
+                    <input type="url" id="img" name="img" placeholder="https://example.com/image.jpg">
+                </div>
+                <button type="submit">Add Product</button>
+            </form>
+        </section>
+        <section id="about" class="section">
+            <h2>About</h2>
+            <p>“Exchange For You is a user-friendly platform designed to make exchanging goods, services, and resources easier than ever. Whether you’re trading items, skills, or knowledge, our secure and transparent system helps you connect with the right people and get the best value out of your exchanges.”</p>
+            <ul>
+                <li>Responsive layout for desktop and mobile</li>
+                <li>Add, edit, and delete products</li>
+                <li>Category and price management</li>
+                <li>Modal dialogs for editing</li>
+                <li>Client-side validation</li>
+            </ul>
+        </section>
+    </main>
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h3 id="editModalLabel">Edit Product</h3>
+            <form id="editForm" autocomplete="off">
+                <div class="form-group">
+                    <label for="editTitle">Product Name</label>
+                    <input type="text" id="editTitle" name="editTitle" required maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label for="editDesc">Description</label>
+                    <textarea id="editDesc" name="editDesc" rows="3" required maxlength="200"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editPrice">Price ($)</label>
+                    <input type="number" id="editPrice" name="editPrice" required min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="editCategory">Category</label>
+                    <select id="editCategory" name="editCategory" required>
+                        <option value="">Select category</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Books">Books</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editImg">Image URL (Optional)</label>
+                    <input type="url" id="editImg" name="editImg" placeholder="https://example.com/image.jpg">
+                </div>
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+    <div class="modal" id="imageModal">
+        <span class="close-modal" id="closeImageModal">&times;</span>
+        <img class="lightbox-content" id="lightboxImg" alt="Enlarged product image">
+    </div>
+    <script>
+        // Minimal JS, no external requests, lazy load images if present
+        const cardList=document.getElementById('cardList'),
+            dataForm=document.getElementById('dataForm'),
+            editModal=document.getElementById('editModal'),
+            closeModal=document.getElementById('closeModal'),
+            editForm=document.getElementById('editForm'),
+            imageModal=document.getElementById('imageModal'),
+            closeImageModal=document.getElementById('closeImageModal'),
+            lightboxImg=document.getElementById('lightboxImg');
+        let products=[
+            {title:"Wireless Headphones",desc:"High-fidelity sound and noise cancellation.",price:"149.99",category:"Electronics",img:"https://images.unsplash.com/photo-1505740420928-5e570206c94e?w=500&auto=format&fit=crop"},
+            {title:"Classic Leather Watch",desc:"A timeless piece for any occasion.",price:"299.50",category:"Clothing",img:"https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500"},
+            {title:"The Art of Programming",desc:"A must-read for any aspiring developer.",price:"45.00",category:"Books",img:"https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500"},
+            {title:"Modern Succulent Plant",desc:"Adds a touch of green to your space.",price:"19.99",category:"Other",img:"https://images.unsplash.com/photo-1509423350716-97f9360b4e29?w=500"}
+        ],editIndex=null;
+
+        function renderProducts(){
+            cardList.innerHTML='';
+            if (!products.length) {
+                cardList.innerHTML = '<div class="empty-message">No products yet. Add one using the form above.</div>';
+                return;
+            }
+            let html='';
+            products.forEach((p,i)=>{
+                const placeholderImg = 'https://placehold.co/600x400/ecf0f1/95a5a6?text=Image+Not+Available';
+                const imgSrc = p.img || placeholderImg;
+                html += `<div class="card">
+                    <img src="${imgSrc}" alt="${p.title}" loading="lazy" onerror="this.onerror=null;this.src='${placeholderImg}';">
+                    <div class="card-content">
+                        <span class="category">${p.category}</span>
+                        <strong>${p.title}</strong>
+                        <span class="desc">${p.desc}</span>
+                        <span class="price">$${parseFloat(p.price).toFixed(2)}</span>
+                    </div>
+                    <div class="actions">
+                        <button class="edit-btn" data-idx="${i}">Edit</button>
+                        <button class="delete-btn" data-idx="${i}">Delete</button>
+                    </div>
+                </div>`;
+            });
+            cardList.innerHTML=html;
+            cardList.querySelectorAll('.edit-btn').forEach(btn=>{
+                btn.onclick=()=>openEditModal(btn.dataset.idx);
+            });
+            cardList.querySelectorAll('.delete-btn').forEach(btn=>{
+                btn.onclick=()=>deleteProduct(btn.dataset.idx);
+            });
+        }
+
+        cardList.addEventListener('click', e => {
+            if (e.target.tagName === 'IMG') {
+                lightboxImg.src = e.target.src;
+                imageModal.classList.add('show');
+            }
+        });
+
+        dataForm.onsubmit=function(e){
+            e.preventDefault();
+            const t=dataForm.title.value.trim(),
+                d=dataForm.desc.value.trim(),
+                p=dataForm.price.value,
+                c=dataForm.category.value,
+                i=dataForm.img.value.trim();
+            if(!t||!d||!p||!c)return;
+            products.unshift({title:t,desc:d,price:p,category:c,img:i});
+            renderProducts();
+            dataForm.reset();
+        };
+
+        function openEditModal(idx){
+            editIndex=Number(idx);
+            const p=products[editIndex];
+            editForm.editTitle.value=p.title;
+            editForm.editDesc.value=p.desc;
+            editForm.editPrice.value=p.price;
+            editForm.editCategory.value=p.category;
+            editForm.editImg.value=p.img||'';
+            editModal.classList.add('show');
+        }
+
+        closeModal.onclick=()=>editModal.classList.remove('show');
+        window.onclick=e=>{if(e.target===editModal)editModal.classList.remove('show');};
+
+        closeImageModal.onclick = () => imageModal.classList.remove('show');
+        imageModal.onclick = e => {
+            // Close only if the dark background is clicked, not the image itself
+            if (e.target === imageModal) {
+                imageModal.classList.remove('show');
+            }
+        };
+
+        editForm.onsubmit=function(e){
+            e.preventDefault();
+            if(editIndex===null)return;
+            const t=editForm.editTitle.value.trim(),
+                d=editForm.editDesc.value.trim(),
+                p=editForm.editPrice.value,
+                c=editForm.editCategory.value,
+                i=editForm.editImg.value.trim();
+            if(!t||!d||!p||!c)return;
+            products[editIndex]={title:t,desc:d,price:p,category:c,img:i};
+            renderProducts();
+            editModal.classList.remove('show');
+        };
+
+        function deleteProduct(idx){
+            if(confirm('Delete this product?')){
+                products.splice(Number(idx),1);
+                renderProducts();
+            }
+        }
+
+        // Accessibility for Modal
+        editModal.setAttribute('role', 'dialog');
+        editModal.setAttribute('aria-modal', 'true');
+        editModal.setAttribute('aria-labelledby', 'editModalLabel');
+
+        // Accessibility for Image Modal
+        imageModal.setAttribute('role', 'dialog');
+        imageModal.setAttribute('aria-modal', 'true');
+        imageModal.setAttribute('aria-label', 'Image lightbox');
+
+        renderProducts();
+    </script>
+</body>
+</html>
